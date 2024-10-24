@@ -23,9 +23,29 @@ async function getJSON(url, options, errorMsg = "Something went wrong...") {
       throw new Error(errorMsg);
     }
     const APIData = await response.json();
-    console.log(APIData, "step 1");
-    console.log(APIData.results, "results/step1");
+    //console.log(APIData, "step 1");
+    //console.log(APIData.results, "results/step1");
     return APIData.results;
+  } catch (APIError) {
+    console.error(APIError);
+    return APIError;
+  }
+}
+
+async function getMixedJSON(
+  url,
+  options,
+  errorMsg = "Something went wrong..."
+) {
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(errorMsg);
+    }
+    const APIData = await response.json();
+    //console.log(APIData, "step 1");
+    //console.log(APIData.results, "results/step1");
+    return APIData;
   } catch (APIError) {
     console.error(APIError);
     return APIError;
@@ -44,8 +64,38 @@ inputButton.addEventListener("click", () => {
     for (let movie of myResponse) {
       //console.log(movie, movie.title);
       //containerNode.innerHTML += `<div>Titre : ${movie.title}</div>`;
-      const movieElement = `<div class="movie">Titre : ${movie.title}</div>`;
+      const movieID = movie.id;
+      const movieElement = `<div id=${movieID} class="movie">${movie.title}</div>`;
       containerNode.insertAdjacentHTML("beforeend", movieElement);
+    }
+    const movieNodes = document.querySelectorAll(".movie");
+    for (let movieDiv of movieNodes) {
+      movieDiv.addEventListener("click", async () => {
+        const divID = movieDiv.getAttribute("id");
+        console.log(divID);
+        const getMovieCredits = async () => {
+          const movieDetails = await getMixedJSON(
+            `https://api.themoviedb.org/3/movie/${divID}?append_to_response=credits&language=en-US`,
+            myOptions
+          );
+          //console.log(movieDetails, "step3");
+          const castDetails = movieDetails.credits.cast;
+          //console.log(castDetails);
+          for (let actor of castDetails) {
+            //console.log(actor.name, actor.character);
+            const actorName = actor.name;
+            const characterName = actor.character;
+            const actorNode = document.createElement("span");
+            actorNode.innerHTML = `<span class='actor'>${actorName} played as ${characterName}<br/></span>`;
+            movieDiv.appendChild(actorNode);
+          }
+
+          // containerNode.textContent = '';        )
+          //};
+          //getMovieCredits();
+        };
+        getMovieCredits();
+      });
     }
   };
   insertMovieData();
