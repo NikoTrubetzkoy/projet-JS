@@ -81,8 +81,9 @@ async function insertMovieData(myName, baseNode) {
     const poster = movie.poster_path;
     console.log(poster);
     const movieElement = `<div id=${movieID} class="movie">
+    <img src="https://media.themoviedb.org/t/p/w220_and_h330_face${poster}" alt='poster_film' />
     <span class="title">${movie.title}</span>
-    <img src="https://media.themoviedb.org/t/p/w220_and_h330_face${poster}" alt='poster_film' /></div>`;
+    </div>`;
     baseNode.insertAdjacentHTML("beforeend", movieElement);
   }
   const movieNodes = document.querySelectorAll(".movie");

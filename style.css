@@ -11,7 +11,7 @@ html {
 
 body {
   font-family: system-ui;
-  color: #555;
+  color: #333;
   background-color: #f7f7f7;
   min-height: 100vh;
   display: flex;
@@ -20,18 +20,33 @@ body {
   justify-content: center;
 }
 
+img {
+  border: 1px solid #6360f7;
+  border-radius: 4px;
+  padding: 2px;
+  width: 150px;
+}
+
+.banner {
+  font: courier;
+  font-size: 50px;
+}
+
 .front {
   font: bold;
-  font-size: medium;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: large;
   margin-top: 100px;
   padding: 30px;
   align-self: center;
   display: block;
   position: relative;
-  width: 50rem;
-  height: 5rem;
+  width: 75rem;
+  height: 15rem;
+  border-radius: 25px;
   background-color: #ffbf00;
 }
+
 .container {
   margin-top: 100px;
   padding: 30px;
