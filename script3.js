@@ -52,51 +52,51 @@ async function getMixedJSON(
   }
 }
 
+async function getMovieCredits(myID, myMovie) {
+  const movieDetails = await getMixedJSON(
+    `https://api.themoviedb.org/3/movie/${myID}?append_to_response=credits&language=en-US`,
+    myOptions
+  );
+  console.log(movieDetails, "step3");
+  const castDetails = movieDetails.credits.cast;
+  //console.log(castDetails);
+  for (let actor of castDetails) {
+    //console.log(actor.name, actor.character);
+    const actorName = actor.name;
+    const characterName = actor.character;
+    const actorNode = document.createElement("span");
+    actorNode.innerHTML = `<span class='actor'>${actorName} played as ${characterName}<br></span>`;
+    myMovie.appendChild(actorNode);
+  }
+}
+
+async function insertMovieData(myName, baseNode) {
+  const myResponse = await getJSON(
+    `https://api.themoviedb.org/3/search/movie?query=${myName}`,
+    myOptions
+  );
+  console.log(myResponse, "step2");
+  for (let movie of myResponse) {
+    const movieID = movie.id;
+    const poster = movie.poster_path;
+    console.log(poster);
+    const movieElement = `<div id=${movieID} class="movie">
+    <span class="title">${movie.title}</span>
+    <img src="https://media.themoviedb.org/t/p/w220_and_h330_face${poster}" alt='poster_film' /></div>`;
+    baseNode.insertAdjacentHTML("beforeend", movieElement);
+  }
+  const movieNodes = document.querySelectorAll(".movie");
+  for (let movieDiv of movieNodes) {
+    movieDiv.addEventListener("click", async () => {
+      const divID = movieDiv.getAttribute("id");
+      console.log(divID);
+      getMovieCredits(divID, movieDiv);
+    });
+  }
+}
+
 inputButton.addEventListener("click", () => {
   const movieName = inputTag.value;
   console.log(movieName);
-  const insertMovieData = async () => {
-    const myResponse = await getJSON(
-      `https://api.themoviedb.org/3/search/movie?query=${movieName}`,
-      myOptions
-    );
-    console.log(myResponse, "step2");
-    for (let movie of myResponse) {
-      //console.log(movie, movie.title);
-      //containerNode.innerHTML += `<div>Titre : ${movie.title}</div>`;
-      const movieID = movie.id;
-      const movieElement = `<div id=${movieID} class="movie">${movie.title}</div>`;
-      containerNode.insertAdjacentHTML("beforeend", movieElement);
-    }
-    const movieNodes = document.querySelectorAll(".movie");
-    for (let movieDiv of movieNodes) {
-      movieDiv.addEventListener("click", async () => {
-        const divID = movieDiv.getAttribute("id");
-        console.log(divID);
-        const getMovieCredits = async () => {
-          const movieDetails = await getMixedJSON(
-            `https://api.themoviedb.org/3/movie/${divID}?append_to_response=credits&language=en-US`,
-            myOptions
-          );
-          //console.log(movieDetails, "step3");
-          const castDetails = movieDetails.credits.cast;
-          //console.log(castDetails);
-          for (let actor of castDetails) {
-            //console.log(actor.name, actor.character);
-            const actorName = actor.name;
-            const characterName = actor.character;
-            const actorNode = document.createElement("span");
-            actorNode.innerHTML = `<span class='actor'>${actorName} played as ${characterName}<br/></span>`;
-            movieDiv.appendChild(actorNode);
-          }
-
-          // containerNode.textContent = '';        )
-          //};
-          //getMovieCredits();
-        };
-        getMovieCredits();
-      });
-    }
-  };
-  insertMovieData();
+  insertMovieData(movieName, containerNode);
 });
