@@ -83,6 +83,14 @@ async function insertMovieData(myName, baseNode) {
     const movieElement = `<div id=${movieID} class="movie">
     <img src="https://media.themoviedb.org/t/p/w220_and_h330_face${poster}" alt='poster_film' />
     <span class="title">${movie.title}</span>
+    <button id="btn${movieID}">See Cast members</button>
+    <div id="mdl${movieID}" class="cast">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+      </div>
+    </div>
     </div>`;
     baseNode.insertAdjacentHTML("beforeend", movieElement);
   }
