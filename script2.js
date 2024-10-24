@@ -13,14 +13,13 @@ const options = {
 const container = document.querySelector(".container");
 //const moviesLabel
 
-function getJSON(url, options, errorMsg = "Something went wrong...") {
-  return fetch(url, options).then((response) => {
-    if (!response.ok) {
-      throw new Error(errorMsg);
-    }
-    const APIData = response.json();
-    return APIData;
-  });
+async function getJSON(url, options, errorMsg = "Something went wrong...") {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(errorMsg);
+  }
+  const APIData = await response.json();
+  return APIData;
 }
 
 async function getMoviesInfo() {
@@ -40,7 +39,7 @@ async function getMoviesInfo() {
 
     for (const movieID of IDsList.slice(0, 10)) {
       const movieInfo = await getJSON(
-        `https://api.themoviedb.org/3/movie/${movieID}&append_to_response=people`,
+        `https://api.themoviedb.org/3/movie/${movieID}&append_to_response=credits`,
         options
       );
       InfoList.push(movieInfo);
@@ -52,8 +51,11 @@ async function getMoviesInfo() {
   }
 }
 
-const moviesList = async () => await getMoviesInfo();
-console.log(moviesList());
-for (let movie of moviesList) {
-  console.log(movie.title);
-}
+const printMovieList = async () => {
+  const moviesList = await getMoviesInfo();
+  console.log(moviesList);
+};
+
+printMovieList();
+//const MyObject = printMovieList();
+//console.log(MyObject);

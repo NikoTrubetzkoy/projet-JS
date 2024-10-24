@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui;
+  color: #555;
+  background-color: #f7f7f7;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.front {
+  margin-top: 100px;
+  padding: 30px;
+}
+.container {
+  margin-top: 100px;
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  height: 50%;
+}
+
+.movie {
+  background-color: #fff;
+  box-shadow: 0 2rem 5rem 1rem rgba(0, 0, 0, 0.1);
+  font-size: 1.8rem;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 0.7rem;
+  margin: 0 3rem;
+  flex-wrap: wrap;
+}
