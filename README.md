@@ -7,5 +7,6 @@ L'affichage de la distribution se fait dans une fenêtre modale qui s'ouvre avec
 d'un bouton "See the cast".
 
 La page fait appel à l'API dédiée du site TMDB ('The Movie Database', "https://www.themoviedb.org/").
+
 Elle est disponible pour observation ou commentaire en ligne à l'adresse suivante :
 "https://projet-js-omega.vercel.app/".
